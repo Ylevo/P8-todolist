@@ -16,8 +16,6 @@
         "php": ">=8.0",
         "doctrine/orm": "^2.15.0",
         "doctrine/annotations": "^2.0",
-        "doctrine/doctrine-bundle": "^2.8.0",
-        "doctrine/doctrine-migrations-bundle": "^3.2",
         "symfony/monolog-bundle": "^v3.1.0",
         "symfony/polyfill-apcu": "^1.0",
         "symfony/flex": "^2",
@@ -34,10 +32,15 @@
         "symfony/runtime": "v6.3",
         "symfony/error-handler": "v6.3",
         "symfony/console": "v6.3",
-        "symfony/validator": "v6.3"
+        "symfony/validator": "v6.3",
+        "doctrine/doctrine-bundle": "^2.10",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "symfony/dotenv": "v6.3"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^6.3"
+        "symfony/phpunit-bridge": "^6.3",
+        "symfony/stopwatch": "v6.3",
+        "symfony/web-profiler-bundle": "v6.3"
     },
     "extra": {
         "symfony": {
