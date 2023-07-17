@@ -14,7 +14,6 @@ class AppFixtures extends Fixture
         UserFactory::createOne(
             [
                 'email' => 'admin@foobar.net',
-                'password' => 'admin',
                 'username' => 'Admin',
                 'roles' => ["ROLE_ADMIN"]
             ]

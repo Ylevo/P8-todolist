@@ -37,10 +37,10 @@ final class TaskFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            'content' => self::faker()->text(),
+            'content' => self::faker()->text(100),
             'createdAt' => self::faker()->dateTime(),
             'isDone' => self::faker()->boolean(),
-            'title' => self::faker()->text(255),
+            'title' => self::faker()->text(20),
             'author' => UserFactory::random(),
         ];
     }

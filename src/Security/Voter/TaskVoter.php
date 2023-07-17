@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class TaskVoter extends Voter
 {
-    public const DELETE = 'DELETE';
+    public const DELETE = 'TASK_DELETE';
 
     public function __construct(private Security $security)
     {
