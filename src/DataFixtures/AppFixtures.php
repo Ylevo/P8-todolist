@@ -11,16 +11,24 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        UserFactory::createOne(
+        UserFactory::createSequence([
             [
                 'email' => 'admin@foobar.net',
                 'username' => 'Admin',
                 'roles' => ["ROLE_ADMIN"]
+            ],
+            [
+                'email' => 'test@test.net',
+                'username' => 'Test User'
             ]
-        );
+        ]);
 
-        UserFactory::createMany(3, ['roles' => ["ROLE_USER"]]);
+        UserFactory::createMany(3);
         TaskFactory::createMany(10);
+        TaskFactory::createSequence([
+            ['author' => UserFactory::find(['email' => 'test@test.net'])],
+            ['author' => UserFactory::find(['email' => 'admin@foobar.net'])]
+        ]);
         TaskFactory::createMany(5, ['author' => null]);
 
 
