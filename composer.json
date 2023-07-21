@@ -40,7 +40,10 @@
     "require-dev": {
         "symfony/phpunit-bridge": "^6.3",
         "symfony/stopwatch": "v6.3",
-        "symfony/web-profiler-bundle": "v6.3"
+        "symfony/web-profiler-bundle": "v6.3",
+        "symfony/maker-bundle": "^1.50",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "zenstruck/foundry": "^1.34"
     },
     "extra": {
         "symfony": {
