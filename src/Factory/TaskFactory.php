@@ -40,7 +40,7 @@ final class TaskFactory extends ModelFactory
             'content' => self::faker()->text(100),
             'createdAt' => self::faker()->dateTime(),
             'isDone' => self::faker()->boolean(),
-            'title' => self::faker()->text(20),
+            'title' => self::faker()->sentence(5),
             'author' => UserFactory::random(),
         ];
     }

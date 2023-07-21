@@ -26,7 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         min: 3,
         max: 25,
         minMessage: "Nom d'utilisateur trop court - 3 caractères minimum.",
-        maxMessage: "Nom d'utilisateur trop court - 25 caractères maximum."
+        maxMessage: "Nom d'utilisateur trop long - 25 caractères maximum."
     )]
     private string $username;
 
@@ -92,7 +92,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        return $this->roles;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
     public function setRoles(array $roles): self
