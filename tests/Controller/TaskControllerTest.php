@@ -51,6 +51,8 @@ class TaskControllerTest extends WebTestCase
         ]);
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorExists('div.alert-success', 'Success message check');
+        $tasks = $this->taskRepository->findAll();
+        $this->assertSame($this->normalUser->getId(), end($tasks)->getAuthor()->getId(), 'User assigned as author check');
     }
 
     public function testEditTask(): void
@@ -70,7 +72,8 @@ class TaskControllerTest extends WebTestCase
     {
         $this->client->loginUser($this->normalUser);
         $taskId = $this->taskRepository->findOneBy(['author' => $this->normalUser])->getId();
-        $this->client->request('GET', "/tasks/${taskId}/toggle");
+        $this->client->request('GET', '/tasks');
+        $this->client->submitForm("toggle-task-${taskId}");
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorExists('div.alert-success', 'Success message check');
     }
@@ -79,7 +82,8 @@ class TaskControllerTest extends WebTestCase
     {
         $this->client->loginUser($this->normalUser);
         $taskId = $this->taskRepository->findOneBy(['author' => $this->normalUser])->getId();
-        $this->client->request('GET', "/tasks/${taskId}/delete");
+        $this->client->request('GET', '/tasks');
+        $this->client->submitForm("delete-task-${taskId}");
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorExists('div.alert-success', 'Success message check');
     }
@@ -88,7 +92,7 @@ class TaskControllerTest extends WebTestCase
     {
         $this->client->loginUser($this->normalUser);
         $taskId = $this->taskRepository->findOneBy(['author' => $this->adminUser])->getId();
-        $this->client->request('GET', "/tasks/${taskId}/delete");
+        $this->client->request('POST', "/tasks/${taskId}/delete");
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
@@ -96,7 +100,7 @@ class TaskControllerTest extends WebTestCase
     {
         $this->client->loginUser($this->normalUser);
         $taskId = $this->taskRepository->findOneBy(['author' => null])->getId();
-        $this->client->request('GET', "/tasks/${taskId}/delete");
+        $this->client->request('POST', "/tasks/${taskId}/delete");
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
@@ -104,7 +108,8 @@ class TaskControllerTest extends WebTestCase
     {
         $this->client->loginUser($this->adminUser);
         $taskId = $this->taskRepository->findOneBy(['author' => null])->getId();
-        $this->client->request('GET', "/tasks/${taskId}/delete");
+        $this->client->request('GET', '/tasks');
+        $this->client->submitForm("delete-task-${taskId}");
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorExists('div.alert-success', 'Success message check');
     }

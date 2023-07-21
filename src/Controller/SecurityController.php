@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/login', name: 'login')]
+    #[Route('/login', name: 'login', methods: ['GET', 'POST'])]
     public function loginAction(AuthenticationUtils $authenticationUtils) : Response
     {
         if ($this->getUser()) {
@@ -24,13 +24,13 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    #[Route('/login_check', name: 'login_check')]
+    #[Route('/login_check', name: 'login_check', methods: ['POST'])]
     public function loginCheck()
     {
         // This code is never executed.
     }
 
-    #[Route('/logout', name: 'logout')]
+    #[Route('/logout', name: 'logout', methods: ['GET'])]
     public function logoutCheck()
     {
         // This code is never executed.
