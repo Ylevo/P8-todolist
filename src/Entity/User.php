@@ -26,7 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         min: 3,
         max: 25,
         minMessage: "Nom d'utilisateur trop court - 3 caractères minimum.",
-        maxMessage: "Nom d'utilisateur trop court - 25 caractères maximum."
+        maxMessage: "Nom d'utilisateur trop long - 25 caractères maximum."
     )]
     private string $username;
 

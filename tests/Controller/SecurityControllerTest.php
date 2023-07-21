@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -10,11 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 class SecurityControllerTest extends WebTestCase
 {
     private ?KernelBrowser $client = null;
+    private ?User $normalUser = null;
 
     public function setUp(): void
     {
         $this->client = static::createClient();
         $this->client->followRedirects();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $this->normalUser = $userRepository->findOneBy(['email' => 'test@test.net']);
     }
 
     public function testLoginPage(): void
@@ -47,10 +51,16 @@ class SecurityControllerTest extends WebTestCase
 
     public function testLogout(): void
     {
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        $this->client->loginUser($userRepository->findOneBy(['email' => 'test@test.net']));
+        $this->client->loginUser($this->normalUser);
         $this->client->request('GET', '/logout');
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorExists('#username', 'Username input check');
+    }
+
+    public function testAlreadyLogged(): void
+    {
+        $this->client->loginUser($this->normalUser);
+        $this->client->request('GET', '/login');
+        $this->assertSelectorExists('a[href="/tasks/create"]', 'Tasks creation link check');
     }
 }

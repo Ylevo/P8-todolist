@@ -3,15 +3,13 @@
 namespace App\Tests\Controller;
 
 use App\Entity\User;
-use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UserControllerTask extends WebTestCase
+class UserControllerTest extends WebTestCase
 {
-
     private ?KernelBrowser $client = null;
     private ?User $normalUser = null;
     private ?User $adminUser = null;
@@ -46,7 +44,7 @@ class UserControllerTask extends WebTestCase
         $this->client->loginUser($this->adminUser);
         $this->client->request('GET', '/users/create');
         $this->client->submitForm('Ajouter', [
-            'user[username]' => 'Username that surely is not used',
+            'user[username]' => 'Username surely not used',
             'user[email]' => 'notusedemail@probably.com',
             'user[password][first]' => 'password',
             'user[password][second]' => 'password',
@@ -62,7 +60,7 @@ class UserControllerTask extends WebTestCase
         $normalUserId = $this->normalUser->getId();
         $this->client->request('GET', "/users/${normalUserId}/edit");
         $this->client->submitForm('Modifier', [
-            'user[username]' => 'Username that surely is not used',
+            'user[username]' => 'Username surely not used',
             'user[email]' => 'notusedemail@probably.com',
             'user[password][first]' => 'password',
             'user[password][second]' => 'password',
