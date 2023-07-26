@@ -33,6 +33,6 @@ The request may even be accepted some day but don't hold your breath.
 A few pointers :
 
 - Code must be clear and readable
-- Test your code
+- Test your code (using PHPUnit for example)
 - You may use SymfonyInsight to check code quality and detect security vulnerabilities
 - Test your code.
