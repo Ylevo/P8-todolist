@@ -35,4 +35,3 @@ A few pointers :
 - Code must be clear and readable
 - Test your code (using PHPUnit for example)
 - You may use SymfonyInsight to check code quality and detect security vulnerabilities
-- Test your code.
