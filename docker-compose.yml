@@ -5,9 +5,11 @@ services:
     container_name: mysql_todolist
     ports:
       - "3306:3306"
+    command: --init-file /data/application/init.sql
     restart: always
     volumes:
       - ./var/mysql:/var/lib/mysql
+      - ./dump/init.sql:/data/application/init.sql
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: todolist
