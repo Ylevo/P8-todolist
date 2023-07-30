@@ -38,7 +38,7 @@ final class TaskFactory extends ModelFactory
     {
         return [
             'content' => self::faker()->text(100),
-            'createdAt' => self::faker()->dateTime(),
+            'createdAt' => self::faker()->datetime(),
             'isDone' => self::faker()->boolean(),
             'title' => self::faker()->sentence(5),
             'author' => UserFactory::random(),

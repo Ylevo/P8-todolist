@@ -102,4 +102,4 @@ $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
 Ou encore l'attribut `#[IsGranted()]`.
 
-Quel que soit la méthode utilisée, lorsqu'un accès est rejeté, une exception `AccessDeniedException` est jetée. Ensuite, soit l'utilisateur n'est pas connecté et il est redirigé vers le formulaire de connexion, soit il l'est et une page "403 access denied" s'affiche. 
+Quel que soit la méthode utilisée, lorsqu'un accès est rejeté, une exception `AccessDeniedException` est jetée. Ensuite, soit l'utilisateur n'est pas connecté et il est redirigé vers le formulaire de connexion, soit il l'est et une page "403 access denied" s'affiche.
