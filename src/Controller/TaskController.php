@@ -13,10 +13,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TaskController extends AbstractController
 {
-    #[Route('/tasks', name: 'task_list', methods: ['GET'])]
-    public function listAction(TaskRepository $taskRepository): Response
+    #[Route('/tasks/todo', name: 'tasks_todo', methods: ['GET'])]
+    public function todoTasksListAction(TaskRepository $taskRepository): Response
     {
-        return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findAll()]);
+        return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findBy(['isDone' => false])]);
+    }
+
+    #[Route('/tasks/done', name: 'tasks_done', methods: ['GET'])]
+    public function doneTasksListAction(TaskRepository $taskRepository): Response
+    {
+        return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findBy(['isDone' => true])]);
     }
 
     #[Route('/tasks/create', name: 'task_create', methods: ['GET', 'POST'])]
@@ -34,7 +40,7 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('tasks_todo');
         }
 
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
@@ -53,7 +59,7 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('tasks_todo');
         }
 
         return $this->render('task/edit.html.twig', [
@@ -75,14 +81,13 @@ class TaskController extends AbstractController
             $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
         }
 
-        return $this->redirectToRoute('task_list');
+        return $this->redirect($request->headers->get('referer'));
     }
 
     #[Route('/tasks/{id}/delete', name: 'task_delete', methods: ['POST'])]
     public function deleteTaskAction(Task $task, Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('TASK_DELETE', $task, "Vous n'êtes pas autorisé à supprimer cette tâche.");
-
         $token = $request->get('_token');
 
         if ($this->isCsrfTokenValid('delete-' . $task->getId(), $token)) {
@@ -92,6 +97,6 @@ class TaskController extends AbstractController
             $this->addFlash('success', 'La tâche a bien été supprimée.');
         }
 
-        return $this->redirectToRoute('task_list');
+        return $this->redirect($request->headers->get('referer'));
     }
 }

@@ -26,8 +26,9 @@ class AppFixtures extends Fixture
         UserFactory::createMany(3);
         TaskFactory::createMany(10);
         TaskFactory::createSequence([
-            ['author' => UserFactory::find(['email' => 'test@test.net'])],
-            ['author' => UserFactory::find(['email' => 'admin@foobar.net'])]
+            ['author' => UserFactory::find(['email' => 'test@test.net']), 'isDone' => false],
+            ['author' => UserFactory::find(['email' => 'admin@foobar.net']), 'isDone' => false],
+            ['author' => null, 'isDone' => false]
         ]);
         TaskFactory::createMany(5, ['author' => null]);
 

@@ -26,17 +26,25 @@ class TaskControllerTest extends WebTestCase
         $this->taskRepository = static::getContainer()->get(TaskRepository::class);
     }
 
-    public function testTasksPage(): void
+    public function testTodoTasksPage(): void
     {
         $this->client->loginUser($this->normalUser);
-        $this->client->request('GET', '/tasks');
+        $this->client->request('GET', '/tasks/todo');
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+        $this->assertSelectorExists('a[href="/tasks/create"]', 'Tasks create link check');
+    }
+
+    public function testDoneTasksPage(): void
+    {
+        $this->client->loginUser($this->normalUser);
+        $this->client->request('GET', '/tasks/done');
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorExists('a[href="/tasks/create"]', 'Tasks create link check');
     }
 
     public function testTasksPageNotLogged(): void
     {
-        $this->client->request('GET', '/tasks');
+        $this->client->request('GET', '/tasks/todo');
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorExists('#username', 'Username input check');
     }
@@ -58,7 +66,7 @@ class TaskControllerTest extends WebTestCase
     public function testEditTask(): void
     {
         $this->client->loginUser($this->normalUser);
-        $taskId = $this->taskRepository->findOneBy(['author' => $this->normalUser])->getId();
+        $taskId = $this->taskRepository->findOneBy(['author' => $this->normalUser, 'isDone' => false])->getId();
         $this->client->request('GET', "/tasks/${taskId}/edit");
         $this->client->submitForm('Modifier', [
             'task[title]' => 'Task edit',
@@ -71,8 +79,8 @@ class TaskControllerTest extends WebTestCase
     public function testToggleTask(): void
     {
         $this->client->loginUser($this->normalUser);
-        $taskId = $this->taskRepository->findOneBy(['author' => $this->normalUser])->getId();
-        $this->client->request('GET', '/tasks');
+        $taskId = $this->taskRepository->findOneBy(['author' => $this->normalUser, 'isDone' => false])->getId();
+        $this->client->request('GET', '/tasks/todo');
         $this->client->submitForm("toggle-task-${taskId}");
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorExists('div.alert-success', 'Success message check');
@@ -81,8 +89,8 @@ class TaskControllerTest extends WebTestCase
     public function testDeleteOwnedTask(): void
     {
         $this->client->loginUser($this->normalUser);
-        $taskId = $this->taskRepository->findOneBy(['author' => $this->normalUser])->getId();
-        $this->client->request('GET', '/tasks');
+        $taskId = $this->taskRepository->findOneBy(['author' => $this->normalUser, 'isDone' => false])->getId();
+        $this->client->request('GET', '/tasks/todo');
         $this->client->submitForm("delete-task-${taskId}");
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorExists('div.alert-success', 'Success message check');
@@ -108,11 +116,9 @@ class TaskControllerTest extends WebTestCase
     {
         $this->client->loginUser($this->adminUser);
         $taskId = $this->taskRepository->findOneBy(['author' => null])->getId();
-        $this->client->request('GET', '/tasks');
+        $this->client->request('GET', '/tasks/todo');
         $this->client->submitForm("delete-task-${taskId}");
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorExists('div.alert-success', 'Success message check');
     }
-
-
 }
