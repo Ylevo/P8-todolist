@@ -35,7 +35,7 @@
         <!-- Page Content -->
         <div class="container">
             <div class="row">
-                <div class="col-auto">
+                <div class="col-auto gy-3 mb-2">
                     {% if is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
                         <a href="{{ path('user_list') }}" class="btn btn-warning mr-2">Liste d'utilisateurs</a>
