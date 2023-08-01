@@ -13,11 +13,12 @@ You can use the 'Admin' and 'Test User' accounts for testing. Both have 'passwor
 ## Using PHPUnit
 
 1. Create the test database `symfony console doctrine:database:create --env=test`
-2. Create the database's tables `symfony console doctrine:migrations:migrate --env=test`
-3. Populate the database using the fixtures `symfony console doctrine:fixtures:load --env=test`
-4. Launch the tests `vendor/bin/phpunit`
-5. Generate the test coverage `vendor/bin/phpunit --coverage-html public/test-coverage`
-6. You can then find it in ***public/test-coverage***
+2. Generate doctrine's migration `symfony console make:migration --env=test`
+3. Create the database's tables `symfony console doctrine:migrations:migrate --env=test`
+4. Populate the database using the fixtures `symfony console doctrine:fixtures:load --env=test`
+5. Launch the tests `vendor/bin/phpunit`
+6. Generate the test coverage `vendor/bin/phpunit --coverage-html public/test-coverage`
+7. You can then find it in ***public/test-coverage***
 
 ## How to contribute
 
